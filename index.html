@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Eternal Love ❤️</title>
+    <title>My Heart's Eternal Flame ❤️</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Parisienne&display=swap');
+
+        :root {
+            --primary-heart: #ff1493;
+            --secondary-heart: #ff69b4;
+        }
 
         body {
             margin: 0;
@@ -13,189 +18,219 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle at center, #ff3366, #8b0000);
+            background: radial-gradient(circle, #580020, #1a000a);
             overflow: hidden;
-            cursor: pointer;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><text x="8" y="24" style="font-size:24px;fill:%23ff1493;">❤️</text></svg>') 16 16, auto;
         }
 
-        .valentines-card {
+        .cosmic-container {
             position: relative;
+            perspective: 1000px;
+            z-index: 2;
+        }
+
+        .valentine-card {
             width: 400px;
             height: 500px;
             transform-style: preserve-3d;
-            transition: transform 1s;
-            perspective: 1000px;
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
 
-        .card-front, .card-back {
+        .card-face {
             position: absolute;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #fff0f5 30%, #ffe4ee 100%);
+            box-shadow: 0 0 40px rgba(255, 20, 147, 0.4);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #fff0f5;
-            border-radius: 20px;
-            box-shadow: 0 0 50px rgba(255, 20, 147, 0.5);
-            padding: 20px;
+            padding: 2rem;
             text-align: center;
         }
 
         .card-back {
             transform: rotateY(180deg);
-            background: linear-gradient(45deg, #ff69b4, #ff1493);
-            color: white;
+            background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
         }
 
-        .valentines-card.flipped {
+        .flipped {
             transform: rotateY(180deg);
         }
 
-        .love-message {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2em;
-            color: white;
-            margin: 20px;
-            transition: transform 0.3s;
-            cursor: pointer;
+        .card-content {
+            position: relative;
             z-index: 2;
         }
 
-        .love-message:hover {
-            transform: scale(1.1);
+        h1 {
+            font-family: 'Parisienne', cursive;
+            color: #8b0000;
+            font-size: 2.5rem;
+            margin: 1rem 0;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
         }
 
-        .hearts {
+        .love-poem {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: #4a0000;
+            line-height: 1.4;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        .love-poem:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .heart-particle {
             position: fixed;
             pointer-events: none;
-            animation: float 4s linear forwards;
+            animation: float 6s linear infinite;
+            opacity: 0;
         }
 
         @keyframes float {
-            0% { 
-                transform: translateY(0) rotate(0deg) scale(1);
-                opacity: 1;
-            }
-            100% { 
-                transform: translateY(-100vh) rotate(720deg) scale(0);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
-        .mouse-heart {
+        .mouse-trail {
             position: fixed;
             pointer-events: none;
-            animation: trail 1s linear forwards;
+            animation: trail 1.2s linear forwards;
         }
 
         @keyframes trail {
             0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(0.2); opacity: 0; }
         }
 
-        .secret-message {
-            position: absolute;
-            bottom: 20px;
-            font-family: 'Pacifico', cursive;
-            color: gold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            opacity: 0;
-            transition: opacity 1s;
+        .background-hearts div {
+            position: fixed;
+            animation: cosmic-float 20s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes cosmic-float {
+            0% { transform: translateY(100vh) translateX(-50vw); }
+            100% { transform: translateY(-100vh) translateX(50vw); }
         }
     </style>
 </head>
 <body>
-    <div class="valentines-card">
-        <div class="card-front">
-            ❤️❤️❤️
-            <h1>To My Forever Valentine</h1>
-            <div class="heart" style="font-size: 4em; animation: heartbeat 1s infinite">❤️</div>
-            <p>Click this card, my love...</p>
-        </div>
-        <div class="card-back">
-            <div class="love-message" onclick="createHearts()">
-                In your eyes I found my home,<br>
-                In your heart I found my peace,<br>
-                With your hand I'll walk through life,<br>
-                My love for you will never cease.
+    <div class="cosmic-container">
+        <div class="valentine-card">
+            <div class="card-face card-front">
+                <div class="card-content">
+                    <h1>To My Beloved Star</h1>
+                    <div style="font-size: 4rem; animation: pulse 2s infinite">✨❤️✨</div>
+                    <p style="font-family: 'Parisienne'; font-size: 1.5rem">Touch this stardust...</p>
+                </div>
             </div>
-            <div class="secret-message" id="secret">You're my always and forever ❤️</div>
+            <div class="card-face card-back">
+                <div class="card-content">
+                    <div class="love-poem" onclick="createGalaxy()">
+                        Our love's a constellation bright,<br>
+                        Guiding me through endless night,<br>
+                        In your arms, my soul takes flight,<br>
+                        Forever yours, my heart's true light.
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div class="background-hearts"></div>
+
     <script>
-        // Card flip interaction
-        const card = document.querySelector('.valentines-card');
+        // Cosmic Initialization
+        const card = document.querySelector('.valentine-card');
+        const bgHearts = document.querySelector('.background-hearts');
+        
+        // Create background hearts
+        for(let i = 0; i < 50; i++) {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 20 + 's';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.color = `rgba(255,${Math.random() * 55 + 200},${Math.random() * 155 + 100},0.3)`;
+            bgHearts.appendChild(heart);
+        }
+
+        // Card Flip Interaction
         card.addEventListener('click', () => {
             card.classList.toggle('flipped');
         });
 
-        // Heart explosion function
-        function createHearts() {
-            const colors = ['#ff4081', '#ff1493', '#ff69b4', '#ff85a2', '#ffa8c6'];
-            
-            for(let i = 0; i < 100; i++) {
+        // Heart Galaxy Creator
+        function createGalaxy() {
+            const colors = ['#ff1493', '#ff69b4', '#ff85a2', '#ffa8c6', '#ff4081'];
+            for(let i = 0; i < 150; i++) {
                 const heart = document.createElement('div');
+                heart.className = 'heart-particle';
                 heart.innerHTML = '❤️';
-                heart.classList.add('hearts');
-                
-                // Random position across entire screen
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.top = Math.random() * 100 + 'vh';
-                
-                // Random animation properties
-                heart.style.animationDuration = Math.random() * 2 + 2 + 's';
-                heart.style.fontSize = Math.random() * 30 + 15 + 'px';
+                heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+                heart.style.fontSize = Math.random() * 40 + 20 + 'px';
                 heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-                heart.style.transform = `rotate(${Math.random() * 360}deg)`;
-                
                 document.body.appendChild(heart);
                 
-                setTimeout(() => heart.remove(), 4000);
+                setTimeout(() => heart.remove(), 6000);
             }
-
-            // Show secret message
-            const secret = document.getElementById('secret');
-            secret.style.opacity = '1';
         }
 
-        // Mouse trail hearts
+        // Romantic Mouse Trail
         let mouseX = 0, mouseY = 0;
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
             
+            // Create main trail heart
             const heart = document.createElement('div');
+            heart.className = 'mouse-trail';
             heart.innerHTML = '❤️';
-            heart.classList.add('mouse-heart');
             heart.style.left = e.pageX + 'px';
             heart.style.top = e.pageY + 'px';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
             heart.style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
-            heart.style.fontSize = Math.random() * 10 + 10 + 'px';
             document.body.appendChild(heart);
             
-            setTimeout(() => heart.remove(), 1000);
+            // Create secondary particles
+            for(let i = 0; i < 3; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'mouse-trail';
+                particle.innerHTML = '❣️';
+                particle.style.left = e.pageX + Math.random() * 20 - 10 + 'px';
+                particle.style.top = e.pageY + Math.random() * 20 - 10 + 'px';
+                particle.style.fontSize = Math.random() * 10 + 5 + 'px';
+                particle.style.color = `hsl(${Math.random() * 360}, 70%, 70%)`;
+                document.body.appendChild(particle);
+            }
         });
 
-        // Continuous mouse trail effect
-        function createTrail() {
-            const heart = document.createElement('div');
-            heart.innerHTML = '❤️';
-            heart.style.position = 'fixed';
-            heart.style.left = mouseX + Math.random() * 20 - 10 + 'px';
-            heart.style.top = mouseY + Math.random() * 20 - 10 + 'px';
-            heart.style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
-            heart.style.fontSize = Math.random() * 8 + 8 + 'px';
-            heart.style.animation = 'trail 0.5s linear forwards';
-            document.body.appendChild(heart);
-            
-            setTimeout(() => heart.remove(), 500);
-        }
-
-        // Trail interval
-        setInterval(createTrail, 50);
+        // Additional Trail Effects
+        setInterval(() => {
+            const spark = document.createElement('div');
+            spark.className = 'mouse-trail';
+            spark.innerHTML = Math.random() > 0.5 ? '💖' : '💝';
+            spark.style.left = mouseX + Math.random() * 30 - 15 + 'px';
+            spark.style.top = mouseY + Math.random() * 30 - 15 + 'px';
+            spark.style.fontSize = Math.random() * 15 + 8 + 'px';
+            spark.style.animationDuration = Math.random() * 0.5 + 0.3 + 's';
+            document.body.appendChild(spark);
+        }, 50);
     </script>
 </body>
 </html>
