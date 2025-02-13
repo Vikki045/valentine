@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Eternal Love ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&display=swap');
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #ff3366, #8b0000);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .valentines-card {
+            position: relative;
+            width: 400px;
+            height: 500px;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+            perspective: 1000px;
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fff0f5;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 20, 147, 0.5);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+        }
+
+        .valentines-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .love-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2em;
+            color: white;
+            margin: 20px;
+            transition: transform 0.3s;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .love-message:hover {
+            transform: scale(1.1);
+        }
+
+        .hearts {
+            position: fixed;
+            pointer-events: none;
+            animation: float 4s linear forwards;
+        }
+
+        @keyframes float {
+            0% { 
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(-100vh) rotate(720deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .mouse-heart {
+            position: fixed;
+            pointer-events: none;
+            animation: trail 1s linear forwards;
+        }
+
+        @keyframes trail {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        .secret-message {
+            position: absolute;
+            bottom: 20px;
+            font-family: 'Pacifico', cursive;
+            color: gold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+    <div class="valentines-card">
+        <div class="card-front">
+            ❤️❤️❤️
+            <h1>To My Forever Valentine</h1>
+            <div class="heart" style="font-size: 4em; animation: heartbeat 1s infinite">❤️</div>
+            <p>Click this card, my love...</p>
+        </div>
+        <div class="card-back">
+            <div class="love-message" onclick="createHearts()">
+                In your eyes I found my home,<br>
+                In your heart I found my peace,<br>
+                With your hand I'll walk through life,<br>
+                My love for you will never cease.
+            </div>
+            <div class="secret-message" id="secret">You're my always and forever ❤️</div>
+        </div>
+    </div>
+
+    <script>
+        // Card flip interaction
+        const card = document.querySelector('.valentines-card');
+        card.addEventListener('click', () => {
+            card.classList.toggle('flipped');
+        });
+
+        // Heart explosion function
+        function createHearts() {
+            const colors = ['#ff4081', '#ff1493', '#ff69b4', '#ff85a2', '#ffa8c6'];
+            
+            for(let i = 0; i < 100; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.classList.add('hearts');
+                
+                // Random position across entire screen
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = Math.random() * 100 + 'vh';
+                
+                // Random animation properties
+                heart.style.animationDuration = Math.random() * 2 + 2 + 's';
+                heart.style.fontSize = Math.random() * 30 + 15 + 'px';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                document.body.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 4000);
+            }
+
+            // Show secret message
+            const secret = document.getElementById('secret');
+            secret.style.opacity = '1';
+        }
+
+        // Mouse trail hearts
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.classList.add('mouse-heart');
+            heart.style.left = e.pageX + 'px';
+            heart.style.top = e.pageY + 'px';
+            heart.style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+            heart.style.fontSize = Math.random() * 10 + 10 + 'px';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 1000);
+        });
+
+        // Continuous mouse trail effect
+        function createTrail() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.left = mouseX + Math.random() * 20 - 10 + 'px';
+            heart.style.top = mouseY + Math.random() * 20 - 10 + 'px';
+            heart.style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+            heart.style.fontSize = Math.random() * 8 + 8 + 'px';
+            heart.style.animation = 'trail 0.5s linear forwards';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 500);
+        }
+
+        // Trail interval
+        setInterval(createTrail, 50);
+    </script>
+</body>
+</html>
