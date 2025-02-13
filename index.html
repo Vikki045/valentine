@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Heart's Eternal Flame ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>My Mobile Valentine ❤️</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Parisienne&display=swap');
 
@@ -20,21 +20,24 @@
             align-items: center;
             background: radial-gradient(circle, #580020, #1a000a);
             overflow: hidden;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><text x="8" y="24" style="font-size:24px;fill:%23ff1493;">❤️</text></svg>') 16 16, auto;
+            touch-action: manipulation;
         }
 
         .cosmic-container {
             position: relative;
             perspective: 1000px;
             z-index: 2;
+            width: 90%;
+            max-width: 400px;
         }
 
         .valentine-card {
-            width: 400px;
-            height: 500px;
+            width: 100%;
+            height: 70vh;
+            min-height: 500px;
             transform-style: preserve-3d;
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            touch-action: none;
         }
 
         .card-face {
@@ -42,14 +45,14 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 20px;
+            border-radius: 15px;
             background: linear-gradient(45deg, #fff0f5 30%, #ffe4ee 100%);
             box-shadow: 0 0 40px rgba(255, 20, 147, 0.4);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 1rem;
             text-align: center;
         }
 
@@ -62,40 +65,31 @@
             transform: rotateY(180deg);
         }
 
-        .card-content {
-            position: relative;
-            z-index: 2;
-        }
-
         h1 {
             font-family: 'Parisienne', cursive;
             color: #8b0000;
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin: 1rem 0;
             text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
         }
 
         .love-poem {
             font-family: 'Great Vibes', cursive;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: #4a0000;
             line-height: 1.4;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            padding: 1.5rem;
+            padding: 1rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-        }
-
-        .love-poem:hover {
-            transform: scale(1.05);
-            background: rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .heart-particle {
             position: fixed;
             pointer-events: none;
-            animation: float 6s linear infinite;
+            animation: float 6s linear forwards;
             opacity: 0;
         }
 
@@ -104,26 +98,31 @@
             100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
-        .mouse-trail {
+        @media (max-width: 480px) {
+            .valentine-card {
+                height: 80vh;
+                min-height: 400px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .love-poem {
+                font-size: 1.2rem;
+                padding: 0.8rem;
+            }
+        }
+
+        .touch-trail {
             position: fixed;
             pointer-events: none;
-            animation: trail 1.2s linear forwards;
+            animation: trail 1s linear forwards;
         }
 
         @keyframes trail {
             0% { transform: scale(1); opacity: 1; }
             100% { transform: scale(0.2); opacity: 0; }
-        }
-
-        .background-hearts div {
-            position: fixed;
-            animation: cosmic-float 20s linear infinite;
-            opacity: 0.3;
-        }
-
-        @keyframes cosmic-float {
-            0% { transform: translateY(100vh) translateX(-50vw); }
-            100% { transform: translateY(-100vh) translateX(50vw); }
         }
     </style>
 </head>
@@ -131,59 +130,43 @@
     <div class="cosmic-container">
         <div class="valentine-card">
             <div class="card-face card-front">
-                <div class="card-content">
-                    <h1>To My Beloved Star</h1>
-                    <div style="font-size: 4rem; animation: pulse 2s infinite">✨❤️✨</div>
-                    <p style="font-family: 'Parisienne'; font-size: 1.5rem">Touch this stardust...</p>
+                <div>
+                    <h1>To My Beloved</h1>
+                    <div style="font-size: 3rem; animation: pulse 2s infinite">❤️</div>
+                    <p style="font-family: 'Parisienne'; font-size: 1.2rem">Tap this heart...</p>
                 </div>
             </div>
             <div class="card-face card-back">
-                <div class="card-content">
-                    <div class="love-poem" onclick="createGalaxy()">
-                        Our love's a constellation bright,<br>
-                        Guiding me through endless night,<br>
-                        In your arms, my soul takes flight,<br>
-                        Forever yours, my heart's true light.
-                    </div>
+                <div class="love-poem" onclick="createGalaxy()">
+                    Your touch sets my heart aglow,<br>
+                    In your arms, time moves slow,<br>
+                    Together our love will ever grow,<br>
+                    My feelings for you only show.
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="background-hearts"></div>
-
     <script>
-        // Cosmic Initialization
+        // Mobile-friendly card flip
         const card = document.querySelector('.valentine-card');
-        const bgHearts = document.querySelector('.background-hearts');
+        let lastTap = 0;
         
-        // Create background hearts
-        for(let i = 0; i < 50; i++) {
-            const heart = document.createElement('div');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDelay = Math.random() * 20 + 's';
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-            heart.style.color = `rgba(255,${Math.random() * 55 + 200},${Math.random() * 155 + 100},0.3)`;
-            bgHearts.appendChild(heart);
-        }
-
-        // Card Flip Interaction
         card.addEventListener('click', () => {
             card.classList.toggle('flipped');
         });
 
-        // Heart Galaxy Creator
+        // Heart explosion with touch support
         function createGalaxy() {
             const colors = ['#ff1493', '#ff69b4', '#ff85a2', '#ffa8c6', '#ff4081'];
-            for(let i = 0; i < 150; i++) {
+            for(let i = 0; i < 75; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart-particle';
                 heart.innerHTML = '❤️';
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.top = Math.random() * 100 + 'vh';
                 heart.style.animationDuration = Math.random() * 3 + 4 + 's';
-                heart.style.fontSize = Math.random() * 40 + 20 + 'px';
+                heart.style.fontSize = Math.random() * 20 + 15 + 'px';
                 heart.style.color = colors[Math.floor(Math.random() * colors.length)];
                 document.body.appendChild(heart);
                 
@@ -191,46 +174,43 @@
             }
         }
 
-        // Romantic Mouse Trail
-        let mouseX = 0, mouseY = 0;
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+        // Touch trail implementation
+        document.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touches = e.touches;
             
-            // Create main trail heart
+            for(let i = 0; i < touches.length; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'touch-trail';
+                heart.innerHTML = '❤️';
+                heart.style.left = touches[i].pageX + 'px';
+                heart.style.top = touches[i].pageY + 'px';
+                heart.style.fontSize = Math.random() * 15 + 10 + 'px';
+                heart.style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                document.body.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 1000);
+            }
+        }, { passive: false });
+
+        // Mouse trail for desktop
+        document.addEventListener('mousemove', (e) => {
             const heart = document.createElement('div');
-            heart.className = 'mouse-trail';
+            heart.className = 'touch-trail';
             heart.innerHTML = '❤️';
             heart.style.left = e.pageX + 'px';
             heart.style.top = e.pageY + 'px';
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.fontSize = Math.random() * 15 + 10 + 'px';
             heart.style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
             document.body.appendChild(heart);
             
-            // Create secondary particles
-            for(let i = 0; i < 3; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'mouse-trail';
-                particle.innerHTML = '❣️';
-                particle.style.left = e.pageX + Math.random() * 20 - 10 + 'px';
-                particle.style.top = e.pageY + Math.random() * 20 - 10 + 'px';
-                particle.style.fontSize = Math.random() * 10 + 5 + 'px';
-                particle.style.color = `hsl(${Math.random() * 360}, 70%, 70%)`;
-                document.body.appendChild(particle);
-            }
+            setTimeout(() => heart.remove(), 1000);
         });
 
-        // Additional Trail Effects
-        setInterval(() => {
-            const spark = document.createElement('div');
-            spark.className = 'mouse-trail';
-            spark.innerHTML = Math.random() > 0.5 ? '💖' : '💝';
-            spark.style.left = mouseX + Math.random() * 30 - 15 + 'px';
-            spark.style.top = mouseY + Math.random() * 30 - 15 + 'px';
-            spark.style.fontSize = Math.random() * 15 + 8 + 'px';
-            spark.style.animationDuration = Math.random() * 0.5 + 0.3 + 's';
-            document.body.appendChild(spark);
-        }, 50);
+        // Prevent vertical scroll on mobile
+        document.body.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
     </script>
 </body>
 </html>
